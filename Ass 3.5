@@ -1,0 +1,46 @@
+ Explain what is High availability of Namenode
+         *High availablity in hadoop 2.x is used to eliminate the single point of failure by setting up secondary namenode.i.e) a support is provided for namenodes
+         *The secondary name node is configured to automatic failover
+         *Automatic failover means,hadoop processes and detects failures in namenode and automatically switch over to the standby mode
+         *The main thing in high availablity is that one namenode is in active mode and the other is in standby node.
+         *The high availablity should stand for multiple failures.
+         *Hadoop Cluster heals automatically without any manual intervention to restore it back. 
+         
+         
+  Explain what is check pointing and how it is useful?
+         *When the edit log is large,it may fill up the disk space thus delaying the namenode startup.Checkpointing is used here.It is explained clearly in the following points. 
+         *Checkpointing is a process that takes an fsimage and edit log and compacts them into a new fsimage.
+         *Instead of replaying the large edit log,the namenode can load the final in-memory directly from fsimage.
+         *However creating a fsimage is intensive,it will take some time to perform.
+         *During checkpoint,name system should restrict access from other users.At this time secondary name node or standby node takes charge.
+         
+ HDFS Federation : 
+          *Namenode conatins all the metadata and thus the memory becomes high and it starts to slow down.
+          *To tackle this issue,HDFS Federation is introduced which includes adding multiple namenodes to a cluster.
+          *Each namenode shares the workload of the cluster.
+          *The list of sub directories managed by the a namenode is called name spce volume.
+          *Blocks for files belonging to a name space is called a block pool.
+          *if one namenode fails,a namespace volume managed by an other namenode is still accessible.So the entire cluster doesn't become inaccessible
+          
+What are the configuration files that are to be edited for sure while installing a hadoop cluster? 
+          The four files that need to be configured explicitly while setting up a single node hadoop cluster are:
+                     Core-site.xml
+                     HDFS-site.xml
+                     YARN-site.xml
+                     xml
+          We can override some explicit properties by configuring them in above files.
+                     In Hadoop, default replication factor is 3 but we can override that property by making replication factor as 1 by explicitly configuring the property in hdfs-site.xml.
+                     Overriding the default parameters optimizes the cluster, improves performance and lets one know about the internal working of Hadoop ecosystem.
+          site.xml Overrides default.xml Settings in following ways
+                   Hadoop’s jar files are available in the following path:  
+                             $HADOOP_HOME/share/hadoop/.It gets all the default configuration details, like default replication factor which is 3  from DFSclient.java from one of the jar files
+                             The default configuration files have specific classpath from where it is always loaded in reference for working Hadoop. 
+                             Similarly the modified site.xml files given to developer are loaded from classpath and checked for additional configuration objects created and deployed into the existing Hadoop ecosystem overriding the default.xml files.
+         Common things to all xml files:
+                                      We can specify the new value with tags like <property>, <name>, <description>, <final>, etc. inside predefined <configuration> tag. 
+                                      As Hadoop is an open source framework so the owners have provided option to override some features by declaring some attribute inside various site.xml files.
+                                      
+         Settings that need to be done in Core-site.xml
+                               *Configuring the name node address
+                               *Configuring the rack awareness factor
+                               *Selecting the type of security                             
