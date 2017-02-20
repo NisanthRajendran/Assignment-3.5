@@ -43,4 +43,60 @@ What are the configuration files that are to be edited for sure while installing
          Settings that need to be done in Core-site.xml
                                *Configuring the name node address
                                *Configuring the rack awareness factor
-                               *Selecting the type of security                             
+                               *Selecting the type of security  
+                               
+                               
+          Here is a detailed description of the below attribute which is compulsorily needed for configuring Hadoop single node cluster.
+
+<name>fs.default.name</name>
+A filesystem path in Hadoop has two main components:
+               A URI (Uniform Resource Identifier) that identifies the file system
+               A path which specifies only the path
+Hadoop tries to find that path on the file system defined by fs.default.name.One of the important tasks done by fs.default.name filesystem is handling the delete operation in Hadoop ecosystem.
+
+Settings To Be Done In HDFS-site.xml:
+
+    The properties inside this xml file deals with storage procedure inside HDFS of Hadoop. Some of the important properties are:
+
+                   Configure port access
+                   Manages ssl client authentication
+                   Controls Network interface
+                   Changes file permission
+    Some of the overridden name attributes are dfs.namenode.name.dir, dfs.datanode.data.dir, blocksize, replication, etc.
+    
+    Block size can be configured using,
+
+                <name>dfs.namenode.name.dir</name>
+
+                <value>/user/tom/Hadoop/namenode</value>
+                
+                
+                Settings In yarn-site.xml
+
+Understanding about yarn-site.xml is easy if I explain you some relative concepts of YARN and why YARN came into existence in Hadoop v2.x .
+
+In Hadoop v1.x TaskTraker and JobTracker were present to handle the job of allocating resources to processes.
+
+YARN has ResourceManager settings which effects resource allocation with node manager and application manager. Some of the important properties are:
+
+WebAppProxy Configuration
+MapReduce Configuration
+NodeManager Configuration
+ResourceManager Configuration
+IPC Configuration
+<name>yarn.nodemanager.aux-services</name>
+
+ <value>mapreduce_shuffle</value>
+ <name>yarn.nodemanager.aux-services.mapreduce.shuffle.class</name>
+
+ <value>org.apache.hadoop.mapred.ShuffleHandler</value>
+ 
+ 
+ When Hadoop runs for any analysis of dataset, the framework at runtime for MapReduce jobs is a vast set of rules for assigning jobs to slave and maintain the jobs records. Here YARN in Hadoop2.x is introduced to help this framework to work efficiently and take the workload for job related assignments. It is again a large unit of Hadoop ecosystem which helps running the map and reduce the collaboration with YARN.  Some of the important features it handles are:
+
+Node health script variables
+Proxy Configuration
+Job Notification Configuration
+<name>mapreduce.framework.name</name>
+
+ <value>yarn</value>
